@@ -261,7 +261,7 @@ public class CustomPlaybackControlView extends FrameLayout {
 
     }
 
-    private void initCustomUI(){
+    private void initCustomUI() {
         discStatic = findViewById(R.id.disc_static);
 
         discMove = findViewById(R.id.disc_move);
@@ -295,19 +295,19 @@ public class CustomPlaybackControlView extends FrameLayout {
         customPrev = findViewById(R.id.custom_prev);
     }
 
-    public void setPrevClickListener(OnClickListener clickListener){
+    public void setPrevClickListener(OnClickListener clickListener) {
         customPrev.setOnClickListener(clickListener);
     }
 
-    public void setNextClickListener(OnClickListener clickListener){
+    public void setNextClickListener(OnClickListener clickListener) {
         customNext.setOnClickListener(clickListener);
     }
 
-    public void setPrevEnable(boolean enable){
+    public void setPrevEnable(boolean enable) {
         customPrev.setEnabled(enable);
     }
 
-    public void setNextEnable(boolean enable){
+    public void setNextEnable(boolean enable) {
         customNext.setEnabled(enable);
     }
 
@@ -498,7 +498,7 @@ public class CustomPlaybackControlView extends FrameLayout {
         boolean playing = player != null && player.getPlayWhenReady();
         if (playButton != null) {
             requestPlayPauseFocus |= playing && playButton.isFocused();
-            Log.d("tessst","playButton==playing"+playing);
+            Log.d("tessst", "playButton==playing" + playing);
             playButton.setVisibility(playing ? View.GONE : View.VISIBLE);
 //            if (duration == 0) {
 //                setButtonEnabled(false, playButton);
@@ -516,7 +516,7 @@ public class CustomPlaybackControlView extends FrameLayout {
         }
         if (pauseButton != null) {
             requestPlayPauseFocus |= !playing && pauseButton.isFocused();
-            Log.d("tessst","pauseButton==playing"+!playing);
+            Log.d("tessst", "pauseButton==playing" + !playing);
             pauseButton.setVisibility(!playing ? View.GONE : View.VISIBLE);
         }
         if (requestPlayPauseFocus) {
@@ -564,10 +564,10 @@ public class CustomPlaybackControlView extends FrameLayout {
     private void updateProgress() {
 
         if (!isVisible() || !isAttachedToWindow) {
-            //Log.i("update","updateProgress()"+"~~~~~");
+            //Log.d("update","updateProgress()"+"~~~~~");
             return;
         }
-        //Log.i("update","updateProgress()走到了"+"~~~~~");
+        //Log.d("update","updateProgress()走到了"+"~~~~~");
 
         long position = 0;
         long bufferedPosition = 0;
@@ -629,11 +629,11 @@ public class CustomPlaybackControlView extends FrameLayout {
             }
         }
 
-//        if (duration == 0) {
-//            setButtonEnabled(false, playButton);
-//            playButton.setVisibility(VISIBLE);
-//            pauseButton.setVisibility(GONE);
-//        }
+        if (duration == 0) {
+            setButtonEnabled(false, playButton);
+            playButton.setVisibility(VISIBLE);
+            pauseButton.setVisibility(GONE);
+        }
 
         if (durationView != null) {
             durationView.setText(Util.getStringForTime(formatBuilder, formatter, duration));
@@ -642,7 +642,6 @@ public class CustomPlaybackControlView extends FrameLayout {
             positionView.setText(Util.getStringForTime(formatBuilder, formatter, position));
         }
         if (timeBar != null) {
-            //Log.i("update","timeBar不空"+"~~~~~");
             timeBar.setPosition(position);
             timeBar.setBufferedPosition(bufferedPosition);
             timeBar.setDuration(duration);
@@ -652,6 +651,8 @@ public class CustomPlaybackControlView extends FrameLayout {
         removeCallbacks(updateProgressAction);
         int playbackState = player == null ? ExoPlayer.STATE_IDLE : player.getPlaybackState();
         if (playbackState != ExoPlayer.STATE_IDLE && playbackState != ExoPlayer.STATE_ENDED) {
+            Log.d("state"," 不懒不结束 "+playbackState);
+            setButtonEnabled(true,playButton);
             long delayMs;
             if (player.getPlayWhenReady() && playbackState == ExoPlayer.STATE_READY) {
                 delayMs = 1000 - (position % 1000);
@@ -664,15 +665,17 @@ public class CustomPlaybackControlView extends FrameLayout {
             postDelayed(updateProgressAction, delayMs);
             //startDisc();
         } else {
-//            playButton.setVisibility(VISIBLE);
-//            pauseButton.setVisibility(GONE);
-            //setButtonEnabled(true, playButton);
-//            if (animator.isStarted()) {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//                    animator.pause();
-//                }
-//            }
             stopDisc();
+            Log.d("state","  "+playbackState);
+            if (playbackState == ExoPlayer.STATE_IDLE ) {
+                Log.d("state","懒懒懒"+playbackState);
+                playButton.setVisibility(VISIBLE);
+                pauseButton.setVisibility(GONE);
+                setButtonEnabled(false, playButton);
+            }
+            if (playbackState == ExoPlayer.STATE_ENDED){
+                Toast.makeText(getContext(),"播完了",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -851,11 +854,11 @@ public class CustomPlaybackControlView extends FrameLayout {
                     break;
                 case KeyEvent.KEYCODE_MEDIA_PLAY:
                     controlDispatcher.dispatchSetPlayWhenReady(player, true);
-                    Toast.makeText(getContext(), "开始了", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "开始了", Toast.LENGTH_SHORT).show();
                     break;
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
                     controlDispatcher.dispatchSetPlayWhenReady(player, false);
-                    Toast.makeText(getContext(), "暂停了", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "暂停了", Toast.LENGTH_SHORT).show();
                     break;
                 case KeyEvent.KEYCODE_MEDIA_NEXT:
                     next();
@@ -980,17 +983,16 @@ public class CustomPlaybackControlView extends FrameLayout {
                     rewind();
                 } else if (playButton == view) {
                     controlDispatcher.dispatchSetPlayWhenReady(player, true);
-                    Toast.makeText(getContext(), "点了播放键", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(), "点了播放键", Toast.LENGTH_LONG).show();
                     startDisc();
                 } else if (pauseButton == view) {
                     controlDispatcher.dispatchSetPlayWhenReady(player, false);
-                    Toast.makeText(getContext(), "点了暂停键", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(), "点了暂停键", Toast.LENGTH_LONG).show();
                     stopDisc();
                 }
             }
             hideAfterTimeout();
         }
-
     }
 
 

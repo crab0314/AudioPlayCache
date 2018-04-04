@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     ScrollView scrollView;
     TextView name;
     int selPosition = -1;
+    MusicAdapter musicAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initAudioCache(String musicUrl) {
+
+        Log.d("position","initAudioCache");
+
         proxyUrl = proxy.getProxyUrl(musicUrl, true);
 
         if (proxy.isCached(musicUrl)) {
@@ -108,6 +112,23 @@ public class MainActivity extends AppCompatActivity {
                 mp3Uri, dataSourceFactory, extractorsFactory, null, null);
         mPlayer.prepare(mediaSource);
         playbackControlView.startMusic();
+        playbackControlView.setPrevClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, "点击了上一个", Toast.LENGTH_SHORT).show();
+                selPosition -= 1;
+                musicAdapter.notifyDataSetChanged();
+            }
+        });
+
+        playbackControlView.setNextClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, "点击了下一个", Toast.LENGTH_SHORT).show();
+                selPosition += 1;
+                musicAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void initMusicList() {
@@ -120,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         scrollView.smoothScrollTo(0, 0);
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);
-        MusicAdapter musicAdapter = new MusicAdapter(musicBeansList);
+        musicAdapter = new MusicAdapter(musicBeansList);
         recyclerView.setAdapter(musicAdapter);
     }
 
@@ -166,18 +187,18 @@ public class MainActivity extends AppCompatActivity {
                     MusicBeans musicBeans = musicList.get(position);
                     playbackControlView.setMusicName(musicBeans.getName());
                     playbackControlView.setDiscMove(musicBeans.getPicture());
-
                     initAudioCache(musicBeans.getMusicUrl());
-                    //playbackControlView.updateAll();
                     selPosition = Integer.parseInt(view.getTag().toString());
-                    if (selPosition >= 1) playbackControlView.setPrevEnable(true);
-                    else playbackControlView.setPrevEnable(false);
-
-                    if (selPosition <= musicList.size() - 2)
-                        playbackControlView.setNextEnable(true);
-                    else playbackControlView.setNextEnable(false);
-
                     notifyDataSetChanged();
+
+//                    if (selPosition >= 1) playbackControlView.setPrevEnable(true);
+//                    else playbackControlView.setPrevEnable(false);
+//
+//                    if (selPosition <= musicList.size() - 2)
+//                        playbackControlView.setNextEnable(true);
+//                    else playbackControlView.setNextEnable(false);
+
+
                 }
             });
             return viewHolder;
@@ -185,17 +206,34 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull MusicAdapter.ViewHolder holder, int position) {
+            Log.d("bindView","onBind"+position+"===============");
+
             MusicBeans musicBeans = musicList.get(position);
             holder.imageView.setImageResource(musicBeans.getPicture());
             holder.nameView.setText(musicBeans.getName());
             holder.descView.setText(musicBeans.getDesc());
-
             holder.musicView.setTag(position);
 
-            if (selPosition == position) {
-                holder.nameView.setTextColor(getResources().getColor(R.color.main_color));
-            } else {
-                holder.nameView.setTextColor(getResources().getColor(R.color.music_name_black));
+            if (selPosition != -1) {
+                Log.d("onBind","selPosition="+selPosition+"  position="+position);
+                if (selPosition == position) {
+                    holder.nameView.setTextColor(getResources().getColor(R.color.main_color));
+                    MusicBeans music = musicList.get(position);
+                    playbackControlView.setMusicName(music.getName());
+                    playbackControlView.setDiscMove(music.getPicture());
+                    Log.d("onBind","name"+music.getName());
+                    initAudioCache(musicBeans.getMusicUrl());
+                } else {
+                    holder.nameView.setTextColor(getResources().getColor(R.color.music_name_black));
+                }
+
+                if (selPosition >= 1) playbackControlView.setPrevEnable(true);
+                else playbackControlView.setPrevEnable(false);
+
+                if (selPosition <= musicList.size() - 2)
+                    playbackControlView.setNextEnable(true);
+                else playbackControlView.setNextEnable(false);
+
             }
         }
 
