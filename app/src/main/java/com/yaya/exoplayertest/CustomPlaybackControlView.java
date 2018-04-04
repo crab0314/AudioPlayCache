@@ -662,20 +662,17 @@ public class CustomPlaybackControlView extends FrameLayout {
                 delayMs = 1000;
             }
             postDelayed(updateProgressAction, delayMs);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                if (animator.isPaused()) {
-                    animator.resume();
-                }
-            }
+            //startDisc();
         } else {
 //            playButton.setVisibility(VISIBLE);
 //            pauseButton.setVisibility(GONE);
-            setButtonEnabled(false, playButton);
-            if (animator.isStarted()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    animator.pause();
-                }
-            }
+            //setButtonEnabled(true, playButton);
+//            if (animator.isStarted()) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                    animator.pause();
+//                }
+//            }
+            stopDisc();
         }
     }
 
