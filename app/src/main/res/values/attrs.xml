@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--标题栏样式-->
+    <declare-styleable name="CustomToolBar">
+        <!--左按钮是否可见|背景-->
+        <attr name="left_btn_visible" format="boolean"/>
+        <attr name="left_btn_src" format="reference|color"/>
+        <!--左文本是否可见|文本内容-->
+        <attr name="left_tv_visible" format="boolean"/>
+        <attr name="left_tv_text" format="string"/>
+        <!--右边按钮是否可见|背景-->
+        <attr name="right_btn_visible" format="boolean"/>
+        <attr name="right_btn_src" format="reference|color"/>
+        <!--右文本是否可见|文本内容-->
+        <attr name="right_tv_visible" format="boolean"/>
+        <attr name="right_tv_text" format="string"/>
+        <!--标题是否可见|文本内容-->
+        <attr name="title_visible" format="boolean"/>
+        <attr name="title_text" format="string"/>
+        <!--背景-->
+        <attr name="barBackground" format="reference|color"/>
+    </declare-styleable>
+</resources>

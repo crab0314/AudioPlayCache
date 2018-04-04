@@ -1,0 +1,182 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/music_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/music_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="28dp"
+            android:textSize="@dimen/music_name"
+            android:text="音乐名字"
+            android:textColor="@color/music_name_white"/>
+
+        <android.support.constraint.ConstraintLayout
+            app:layout_constraintTop_toBottomOf="@id/music_name"
+            android:id="@+id/discViews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="50dp">
+
+            <ImageView
+                android:id="@+id/disc_static"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="100dp"/>
+
+            <ImageView
+                android:id="@+id/disc_move"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                app:layout_constraintTop_toTopOf="@id/disc_static"
+                app:layout_constraintBottom_toBottomOf="@id/disc_static"
+                app:layout_constraintLeft_toLeftOf="@id/disc_static"
+                app:layout_constraintRight_toRightOf="@id/disc_static"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <RelativeLayout
+            app:layout_constraintTop_toBottomOf="@id/discViews"
+            android:id="@+id/progress_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/exo_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="12dp"
+                android:textColor="@android:color/white"
+                />
+
+            <TextView
+                android:id="@+id/exo_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="12dp"
+                android:textColor="@android:color/white"
+                 />
+
+            <com.yaya.exoplayertest.CustomTimeBar
+                android:id="@+id/exo_progress"
+                android:layout_width="match_parent"
+                android:layout_height="26dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_toRightOf="@id/exo_position"
+                android:layout_toLeftOf="@id/exo_duration"
+                app:played_color="#118BFC"
+                app:buffered_color="@android:color/darker_gray"/>
+
+            <!--<com.google.android.exoplayer2.ui.DefaultTimeBar-->
+                <!--android:id="@+id/exo_progress"-->
+                <!--android:layout_height="26dp"-->
+                <!--android:layout_width="match_parent"/>-->
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            app:layout_constraintTop_toBottomOf="@id/progress_content"
+            android:id="@+id/music_control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+
+            <ImageView
+                android:id="@+id/exo_play"
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/music_play"
+                 />
+
+            <ImageView
+                android:id="@+id/exo_pause"
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/music_pause"
+                />
+
+            <!--<ImageView-->
+                <!--android:id="@+id/exo_prev"-->
+                <!--android:layout_width="27dp"-->
+                <!--android:layout_height="27dp"-->
+                <!--android:background="@drawable/exo_play_last"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_marginLeft="30dp"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:visibility="invisible"-->
+                <!--/>-->
+
+            <ImageView
+                android:id="@+id/custom_prev"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:background="@drawable/exo_play_last"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="100dp"
+                android:layout_centerVertical="true"
+                />
+
+
+            <!--<ImageView-->
+                <!--android:id="@+id/exo_next"-->
+                <!--android:layout_width="27dp"-->
+                <!--android:layout_height="27dp"-->
+                <!--android:background="@drawable/exo_play_next"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginRight="30dp"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:visibility="invisible"-->
+                <!--/>-->
+
+            <ImageView
+                android:id="@+id/custom_next"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:background="@drawable/exo_play_next"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="100dp"
+                android:layout_centerVertical="true"
+                />
+
+
+        </RelativeLayout>
+
+        <View
+            app:layout_constraintTop_toBottomOf="@id/music_control"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

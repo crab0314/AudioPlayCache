@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff">
+
+    <ImageView
+        android:id="@+id/music_picture"
+        android:layout_width="57dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        />
+
+    <TextView
+        android:id="@+id/music_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/music_picture"
+        android:layout_toRightOf="@+id/music_picture"
+        android:layout_marginLeft="15dp"
+        android:text="音乐名字"
+        android:textColor="@color/music_name_black"
+        android:textSize="@dimen/music_name" />
+
+    <TextView
+        android:id="@+id/music_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/music_name"
+        android:layout_alignLeft="@+id/music_name"
+        android:layout_marginTop="5dp"
+        android:text="音乐介绍音乐介绍介绍"
+        android:textColor="@color/music_desc"
+        android:textSize="@dimen/music_desc" />
+
+</RelativeLayout>

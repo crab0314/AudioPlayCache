@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="main_color">#4d97f3</color>
+    <color name="buffered_color">#cccccc</color>
+    <color name="unplayed_color">#dddddd</color>
+
+    <color name="music_name_white">#ffffff</color>
+    <color name="music_name_black">#000000</color>
+    <color name="music_desc">#666666</color>
+</resources>
