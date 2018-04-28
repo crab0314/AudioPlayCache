@@ -29,12 +29,10 @@ public class MyApplication extends Application {
 
     public class MyFileNameGenerator implements FileNameGenerator {
         // Urls contain mutable parts (parameter 'sessionToken') and stable video's id (parameter 'videoId').
-        // e. g. http://example.com?videoId=abcqaz&sessionToken=xyz987
+        // e. g. http://example.com?guid=abcqaz&sessionToken=xyz987
         public String generate(String url) {
             Uri uri = Uri.parse(url);
             String audioId = uri.getQueryParameter("guid");
-//            String audioId = url;
-//            String[] res = url.split("/");
             return audioId + ".mp3";
         }
     }

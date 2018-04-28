@@ -466,7 +466,7 @@ public class CustomTimeBar extends View implements TimeBar {
         scrubberBar.set(progressBar);
         long newScrubberTime = scrubbing ? scrubPosition : position;
         if (duration > 0) {
-            Log.v("tessst", "duration>0");
+            //Log.d("tessst", "duration>0");
             int bufferedPixelWidth =
                     (int) ((progressBar.width() * bufferedPosition) / duration);
             bufferedBar.right = progressBar.left + bufferedPixelWidth;
@@ -538,8 +538,17 @@ public class CustomTimeBar extends View implements TimeBar {
             canvas.drawCircle(progressBar.right, (barTop + barBottom) / 2, radius, circlePaint);
         }
         bufferedLeft = Math.max(bufferedLeft, scrubberBar.right);
+
+        //防止盖住右侧小蓝圆
         if (bufferedRight > bufferedLeft) {
-            canvas.drawRect(bufferedLeft, barTop, bufferedRight, barBottom, bufferedPaint);
+            //canvas.drawRect(bufferedLeft, barTop, bufferedRight, barBottom, bufferedPaint);
+            if (bufferedLeft > progressBar.right - radius) {
+                //do nothing
+            } else if (bufferedLeft < progressBar.right - radius) {
+                canvas.drawRect(bufferedLeft, barTop,
+                        bufferedRight > progressBar.right - radius ? progressBar.right - radius : bufferedRight,
+                        barBottom, bufferedPaint);
+            }
         }
         if (scrubberBar.width() > 0) {
             canvas.drawRect(scrubberBar.left, barTop, scrubberBar.right, barBottom, scrubberPaint);
